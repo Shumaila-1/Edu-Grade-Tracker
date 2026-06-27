@@ -12,6 +12,18 @@ def calculate_cgpa():
         total_credits += subject["credits"]
     return round(total_points / total_credits, 2)
 
+def add_subject():
+    name = subject_entry.get()
+    gpa = gpa_entry.get()
+    credits = credit_entry.get()
+    if name and gpa and credits:
+        subjects.append({"name": name, "gpa": float(gpa), "credits": int(credits)})
+        history_list.insert(tk.END, f"{name} | GPA: {gpa} | Credits: {credits}")
+        subject_entry.delete(0, tk.END)
+        gpa_entry.delete(0, tk.END)
+        credit_entry.delete(0, tk.END)
+        cgpa_label.config(text=f"Current CGPA: {calculate_cgpa()}")
+
 root = tk.Tk()
 root.title("Edu Grade Tracker")
 root.geometry("600x650")
@@ -42,17 +54,6 @@ credit_label.grid(row=2, column=0, padx=10, pady=8, sticky="w")
 
 credit_entry = tk.Entry(form_frame, width=30, font=("Helvetica", 11))
 credit_entry.grid(row=2, column=1, padx=10, pady=8)
-
-def add_subject():
-    name = subject_entry.get()
-    gpa = gpa_entry.get()
-    credits = credit_entry.get()
-    if name and gpa and credits:
-        subjects.append({"name": name, "gpa": float(gpa), "credits": int(credits)})
-        history_list.insert(tk.END, f"{name} | GPA: {gpa} | Credits: {credits}")
-        subject_entry.delete(0, tk.END)
-        gpa_entry.delete(0, tk.END)
-        credit_entry.delete(0, tk.END)
 
 add_btn = tk.Button(form_frame, text="Add Subject", bg="#0e6655", fg="white", font=("Helvetica", 11, "bold"), padx=20, pady=5, command=add_subject)
 add_btn.grid(row=3, column=0, columnspan=2, pady=15)
