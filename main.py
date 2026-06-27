@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 
 subjects = []
 
@@ -17,7 +18,14 @@ def add_subject():
     gpa = gpa_entry.get()
     credits = credit_entry.get()
     if name and gpa and credits:
-        subjects.append({"name": name, "gpa": float(gpa), "credits": int(credits)})
+        if not gpa.replace('.', '', 1).isdigit():
+            return
+        if not credits.isdigit():
+            return
+        gpa_value = float(gpa)
+        if gpa_value < 0.0 or gpa_value > 4.0:
+            return
+        subjects.append({"name": name, "gpa": gpa_value, "credits": int(credits)})
         history_list.insert(tk.END, f"{name} | GPA: {gpa} | Credits: {credits}")
         subject_entry.delete(0, tk.END)
         gpa_entry.delete(0, tk.END)
