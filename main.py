@@ -2,6 +2,16 @@ import tkinter as tk
 
 subjects = []
 
+def calculate_cgpa():
+    if len(subjects) == 0:
+        return 0.0
+    total_points = 0
+    total_credits = 0
+    for subject in subjects:
+        total_points += subject["gpa"] * subject["credits"]
+        total_credits += subject["credits"]
+    return round(total_points / total_credits, 2)
+
 root = tk.Tk()
 root.title("Edu Grade Tracker")
 root.geometry("600x650")
@@ -50,7 +60,10 @@ add_btn.grid(row=3, column=0, columnspan=2, pady=15)
 history_label = tk.Label(root, text="Added Subjects:", bg="#e8f8f5", font=("Helvetica", 12, "bold"))
 history_label.pack()
 
-history_list = tk.Listbox(root, width=70, height=10, font=("Helvetica", 10))
+history_list = tk.Listbox(root, width=70, height=8, font=("Helvetica", 10))
 history_list.pack(pady=10)
+
+cgpa_label = tk.Label(root, text="Current CGPA: 0.0", bg="#e8f8f5", font=("Helvetica", 13, "bold"), fg="#0e6655")
+cgpa_label.pack(pady=10)
 
 root.mainloop()
