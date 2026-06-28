@@ -8,6 +8,8 @@ A desktop application built with Python and Tkinter to help students track their
 - Live history list of added subjects
 - Automatic weighted CGPA calculation
 - Input validation for GPA range (0.0 - 4.0)
+- Subject name must contain letters only
+- Credit Hours must be between 1 and 3
 
 ## Tech Stack
 - Python
