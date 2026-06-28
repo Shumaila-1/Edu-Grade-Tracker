@@ -17,20 +17,31 @@ def add_subject():
     name = subject_entry.get()
     gpa = gpa_entry.get()
     credits = credit_entry.get()
-    if name and gpa and credits:
-        if not gpa.replace('.', '', 1).isdigit():
-            return
-        if not credits.isdigit():
-            return
-        gpa_value = float(gpa)
-        if gpa_value < 0.0 or gpa_value > 4.0:
-            return
-        subjects.append({"name": name, "gpa": gpa_value, "credits": int(credits)})
-        history_list.insert(tk.END, f"{name} | GPA: {gpa} | Credits: {credits}")
-        subject_entry.delete(0, tk.END)
-        gpa_entry.delete(0, tk.END)
-        credit_entry.delete(0, tk.END)
-        cgpa_label.config(text=f"Current CGPA: {calculate_cgpa()}")
+    if not name or not gpa or not credits:
+        messagebox.showerror("Missing Fields", "Please fill in all fields.")
+        return
+    if not name.replace(' ', '').isalpha():
+        messagebox.showerror("Invalid Name", "Subject name must contain letters only.")
+        return
+    if not gpa.replace('.', '', 1).isdigit():
+        messagebox.showerror("Invalid GPA", "GPA must be a number.")
+        return
+    if not credits.isdigit():
+        messagebox.showerror("Invalid Credits", "Credit Hours must be a whole number.")
+        return
+    gpa_value = float(gpa)
+    if gpa_value < 0.0 or gpa_value > 4.0:
+        messagebox.showerror("Invalid GPA", "GPA must be between 0.0 and 4.0.")
+        return
+    if int(credits) not in [1, 2, 3]:
+        messagebox.showerror("Invalid Credits", "Credit Hours must be 1, 2, 3")
+        return
+    subjects.append({"name": name, "gpa": gpa_value, "credits": int(credits)})
+    history_list.insert(tk.END, f"{name} | GPA: {gpa} | Credits: {credits}")
+    subject_entry.delete(0, tk.END)
+    gpa_entry.delete(0, tk.END)
+    credit_entry.delete(0, tk.END)
+    cgpa_label.config(text=f"Current CGPA: {calculate_cgpa()}")
 
 root = tk.Tk()
 root.title("Edu Grade Tracker")
