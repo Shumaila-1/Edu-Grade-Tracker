@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 
 subjects = []
 
@@ -34,10 +34,10 @@ def add_subject():
         messagebox.showerror("Invalid GPA", "GPA must be between 0.0 and 4.0.")
         return
     if int(credits) not in [1, 2, 3]:
-        messagebox.showerror("Invalid Credits", "Credit Hours must be 1, 2, 3")
+        messagebox.showerror("Invalid Credits", "Credit Hours must be 1, 2 or 3.")
         return
     subjects.append({"name": name, "gpa": gpa_value, "credits": int(credits)})
-    history_list.insert(tk.END, f"{name} | GPA: {gpa} | Credits: {credits}")
+    table.insert("", tk.END, values=(name, gpa_value, int(credits)))
     subject_entry.delete(0, tk.END)
     gpa_entry.delete(0, tk.END)
     credit_entry.delete(0, tk.END)
@@ -80,8 +80,18 @@ add_btn.grid(row=3, column=0, columnspan=2, pady=15)
 history_label = tk.Label(root, text="Added Subjects:", bg="#e8f8f5", font=("Helvetica", 12, "bold"))
 history_label.pack()
 
-history_list = tk.Listbox(root, width=70, height=8, font=("Helvetica", 10))
-history_list.pack(pady=10)
+style = ttk.Style()
+style.configure("Treeview.Heading", font=("Helvetica", 11, "bold"))
+style.configure("Treeview", font=("Helvetica", 10), rowheight=25)
+
+table = ttk.Treeview(root, columns=("Subject", "GPA", "Credits"), show="headings", height=8)
+table.heading("Subject", text="Subject Name", anchor="center")
+table.heading("GPA", text="GPA", anchor="center")
+table.heading("Credits", text="Credit Hours", anchor="center")
+table.column("Subject", width=250, anchor="center")
+table.column("GPA", width=150, anchor="center")
+table.column("Credits", width=150, anchor="center")
+table.pack(pady=10)
 
 cgpa_label = tk.Label(root, text="Current CGPA: 0.0", bg="#e8f8f5", font=("Helvetica", 13, "bold"), fg="#0e6655")
 cgpa_label.pack(pady=10)
